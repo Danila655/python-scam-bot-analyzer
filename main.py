@@ -35,7 +35,29 @@ def game_loop():
     # Шаг 11: если жизни остались, жди Enter перед следующим вопросом.
     # Шаг 12: верни correct, score, lives, total.
     # Проверка: когда другие функции готовы, запусти python main.py и сыграй несколько ходов.
-    pass
+
+    cases = data.data[:]
+    random.shuffle(cases)
+
+    total = len(cases)
+    lives = LIVES
+    score = 0
+    correct = 0
+    question_num = 0
+    
+    for case in cases:
+        question_num += 1
+        show_question(question_num, case, total, lives, score)
+        player_choice = get_choice()
+        lives, score, correct = process_answer(player_choice, case, lives, score, correct)
+
+        if lives == 0:
+            print("Игра окончена! У вас закончились жизни.")
+            break
+        input("Нажмите Enter для следующего вопроса...")
+    return correct, score, lives, total
+
+    
 
 
 # Эта функция должна собрать игру из готовых частей.
@@ -44,10 +66,15 @@ def play():
     # Шаг 2: вызови game_loop() и сохрани четыре результата.
     # Шаг 3: передай эти четыре результата в show_results().
     # Проверка: в этой функции не должно быть сложной логики, только сборка игры из готовых частей.
-    pass
-
+    
+    show_rules()
+    correct, score, lives, total = game_loop()
+    show_results(correct, score, lives, total)
 
 # Здесь ученик должен включить запуск игры после реализации функций.
 # Подсказка: когда все функции готовы, нужно раскомментировать строку ниже.
 # Проверка: после раскомментирования команда python main.py должна запускать игру.
 # play()
+
+
+game_loop()

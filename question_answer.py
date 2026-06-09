@@ -17,7 +17,13 @@ def show_question(question_num, case, total, lives, score):
     # Шаг 5: выведи слово "Сообщение:".
     # Шаг 6: выведи текст сообщения из case["text"].
     # Проверка: создай тестовый словарь с ключом "text" и вызови show_question(1, case, 20, 3, 0).
-    pass
+
+    print("=" * 20)
+    print(f"Номер вопроса: {question_num}/{total}")
+    print(f"Жизни: {lives}")
+    print(f"Счёт: {score}")
+    print("Сообщение")
+    print(case["text"])
 
 
 # Эта функция должна спросить игрока, считает ли он сообщение скамом.
@@ -29,7 +35,16 @@ def get_choice():
     # Шаг 5: если игрок ввёл "2", верни False.
     # Шаг 6: если игрок ввёл что-то другое, выведи подсказку и повтори вопрос.
     # Проверка: вызови get_choice() и попробуй ввести 1, 2, пустую строку и неправильный текст.
-    pass
+
+    while True:
+        choice = input("Это скам?\n(1 - да, 2 - нет): ").strip()
+        if(choice == "1"):
+            return True
+        elif(choice == "2"):
+            return False
+        else: print("Пожалуйста, введите 1 или 2.")
+
+    
 
 
 # Эта функция должна проверить ответ игрока и обновить жизни, счёт и число правильных ответов.
@@ -43,7 +58,17 @@ def process_answer(player, case, lives, score, correct):
     # Шаг 7: выведи объяснение из case["explanation"].
     # Шаг 8: верни новые значения в таком порядке: lives, score, correct.
     # Проверка: создай case с is_scam=True и проверь правильный и неправильный ответ.
-    pass
+
+    if(player == case["is_scam"]):
+        print("ПРАВИЛЬНО!")
+        score += POINTS
+        correct += 1
+    else:
+        print("НЕПРАВИЛЬНО!")
+        lives -= 1
+        print(case["explanation"])
+    return lives, score, correct
+    
 
 
 # Эта функция должна вернуть итоговое звание игрока по набранным очкам.
@@ -54,4 +79,15 @@ def final_title(score, total):
     # Шаг 4: если доля 0.5 или больше, но меньше 0.8, верни звание осторожного пользователя.
     # Шаг 5: если доля меньше 0.5, верни звание новичка.
     # Проверка: вызови final_title(160, 20), final_title(100, 20), final_title(40, 20).
-    pass
+
+    max_score = total * POINTS 
+    ratio = score / max_score
+
+    if ratio < 0.5:
+        return "Новичок"
+    elif ratio < 0.8:
+        return "Осторожный пользователь"
+    else: 
+        return "Кибердетектив"
+
+    
